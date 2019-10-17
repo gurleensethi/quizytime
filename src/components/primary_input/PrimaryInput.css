@@ -1,0 +1,8 @@
+.input-hide-underline {
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+.input-text-primary {
+  font-size: 20px !important;
+}
