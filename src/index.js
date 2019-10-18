@@ -12,6 +12,7 @@ import firebaseConfig from "./config/firebase.config";
 import AuthProvider from "./context/AuthProvider";
 import { PrivateRoute, PublicRoute } from "./routes/CustomRoutes";
 import { AppRoutes } from "./routes/AppRoutes";
+import NotFound from "./pages/NotFound";
 
 firebase.initializeApp(firebaseConfig);
 
@@ -39,6 +40,7 @@ class App extends React.Component {
               />
               <PublicRoute exact path={AppRoutes.SIGNIN} component={SignIn} />
               <PrivateRoute exact path={AppRoutes.HOME} component={Home} />
+              <Route component={NotFound} />
             </Switch>
           </BrowserRouter>
         </AuthProvider>
