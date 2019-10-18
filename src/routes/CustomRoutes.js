@@ -10,7 +10,6 @@ export class PrivateRoute extends React.Component {
       <AuthProvider.Consumer>
         {({ isLoggedIn }) => {
           if (!isLoggedIn) {
-            console.log("Redirecting to sign in...");
             return <Redirect to={AppRoutes.SIGNIN} />;
           }
           return (
