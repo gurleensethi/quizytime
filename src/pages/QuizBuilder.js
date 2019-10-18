@@ -5,7 +5,7 @@ import DraftQuiz from "../context/DraftQuiz";
 
 export default class QuizBuilderPage extends React.Component {
   handleQuizQuestionsClick = () => {
-    this.props.history.push("/editor/questions");
+    this.props.history.push("/editor/question");
   };
 
   render() {

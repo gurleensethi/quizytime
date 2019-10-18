@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import QuizBuilder from "./pages/QuizBuilder";
-import QuizQuestions from "./pages/QuizQuestions";
+import QuizQuestionsContainer from "./pages/QuizQuestions";
 import DraftQuiz from "./context/DraftQuiz";
 import QuizComplete from "./pages/QuizComplete";
 import Home from "./pages/Home";
@@ -14,6 +14,7 @@ import { PrivateRoute, PublicRoute } from "./routes/CustomRoutes";
 import { AppRoutes } from "./routes/AppRoutes";
 import NotFound from "./pages/NotFound";
 
+// Firebase initialization
 firebase.initializeApp(firebaseConfig);
 
 class App extends React.Component {
@@ -31,7 +32,7 @@ class App extends React.Component {
               <PrivateRoute
                 exact
                 path={AppRoutes.EDITOR_QUESTION}
-                component={QuizQuestions}
+                component={QuizQuestionsContainer}
               />
               <Route
                 exact

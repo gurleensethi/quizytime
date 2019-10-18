@@ -1,4 +1,6 @@
 import React, { createContext } from "react";
+import firebase from "firebase";
+import FirebaseMetaData from "../constants/firebase-meta-data";
 
 export const DraftQuizContext = createContext({
   questions: {
@@ -29,6 +31,8 @@ export default class DraftQuiz extends React.Component {
     }
   };
 
+  db = firebase.firestore();
+
   constructor(props) {
     super(props);
     this.state.updateQuestion = this.updateQuestion;
@@ -37,6 +41,7 @@ export default class DraftQuiz extends React.Component {
     this.state.removeOption = this.removeOption;
     this.state.addNewQuestion = this.addNewQuestion;
     this.state.removeQuestion = this.removeQuestion;
+    this.state.createQuiz = this.createQuiz;
   }
 
   updateQuestion = (id, text) => {
@@ -135,6 +140,13 @@ export default class DraftQuiz extends React.Component {
       delete updatedQuestions[questionId];
       return { questions: updatedQuestions };
     });
+  };
+
+  createQuiz = async () => {
+    const reference = await this.db
+      .collection(FirebaseMetaData.Collections.QUIZ)
+      .add({ questions: this.state.questions });
+    console.log(reference.id);
   };
 
   render() {
