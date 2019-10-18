@@ -1,7 +1,15 @@
 const FirebaseMetaData = {};
 
 const Collections = {
-  QUIZ: "quiz"
+  QUIZ: {
+    name: "quiz"
+  },
+  USER: {
+    name: "user",
+    QUIZ_IDS: {
+      name: "quizids"
+    }
+  }
 };
 
 FirebaseMetaData.Collections = Collections;

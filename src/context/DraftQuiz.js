@@ -144,9 +144,16 @@ export default class DraftQuiz extends React.Component {
 
   createQuiz = async () => {
     const reference = await this.db
-      .collection(FirebaseMetaData.Collections.QUIZ)
+      .collection(FirebaseMetaData.Collections.QUIZ.name)
       .add({ questions: this.state.questions });
-    console.log(reference.id);
+
+    const userId = firebase.auth().currentUser.uid;
+
+    await this.db
+      .collection(FirebaseMetaData.Collections.USER.name)
+      .doc(userId)
+      .collection(FirebaseMetaData.Collections.USER.QUIZ_IDS.name)
+      .add({ id: reference.id });
   };
 
   render() {
