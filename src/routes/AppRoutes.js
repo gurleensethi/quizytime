@@ -3,5 +3,8 @@ export const AppRoutes = {
   HOME: "/",
   EDITOR_QUESTION: "/editor/question",
   EDITOR_QUESTION_ID: "/editor/question/:id",
-  EDITOR_QUIZ_COMPLETE: "/editor/quiz-complete"
+  EDITOR_QUIZ_COMPLETE: "/editor/quiz-complete",
+  dynamicRoutes: {
+    editorQuestionId: id => `/editor/question/${id}`
+  }
 };

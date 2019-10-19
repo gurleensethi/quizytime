@@ -1,12 +1,13 @@
 import React from "react";
 import DraftQuiz from "../context/DraftQuiz";
 import PrimaryInput from "../components/primary_input/PrimaryInput";
+import { AppRoutes } from "../routes/AppRoutes";
 
 class QuizQuestions extends React.Component {
   state = { isSubmittingQuestion: false };
 
   handleQuestionClick = id => {
-    this.props.history.push(`/editor/question/${id}`);
+    this.props.history.push(AppRoutes.dynamicRoutes.editorQuestionId(id));
   };
 
   handleCreateQuizClick = async () => {
@@ -17,7 +18,9 @@ class QuizQuestions extends React.Component {
     const isQuestionSubmitted = await this.props.draftQuiz.createQuiz();
     this.setState(() => ({ isSubmittingQuestion: false }));
     if (isQuestionSubmitted) {
-      this.props.history.push(`/editor/quiz-complete/`, { hasAccess: true });
+      this.props.history.push(AppRoutes.EDITOR_QUIZ_COMPLETE, {
+        hasAccess: true
+      });
     }
   };
 

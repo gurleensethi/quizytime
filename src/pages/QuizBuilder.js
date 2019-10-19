@@ -2,10 +2,11 @@ import React from "react";
 import PrimaryInput from "../components/primary_input/PrimaryInput";
 import OptionsBuilder from "../components/OptionsBuilder";
 import DraftQuiz from "../context/DraftQuiz";
+import { AppRoutes } from "../routes/AppRoutes";
 
 export default class QuizBuilderPage extends React.Component {
   handleQuizQuestionsClick = () => {
-    this.props.history.push("/editor/question");
+    this.props.history.push(AppRoutes.EDITOR_QUESTION);
   };
 
   render() {
@@ -45,7 +46,7 @@ export default class QuizBuilderPage extends React.Component {
                 }) => {
                   const question = questions[questionId];
                   if (!question) {
-                    this.props.history.push("/editor/questions");
+                    this.props.history.push(AppRoutes.EDITOR_QUESTION);
                     return;
                   }
                   return (
