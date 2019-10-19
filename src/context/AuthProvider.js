@@ -31,15 +31,22 @@ export default class AuthProvider extends React.Component {
     }
   };
 
-  constructor(props) {
-    super(props);
-    firebase.auth().onAuthStateChanged(user => {
+  componentDidMount() {
+    this.unsubscribeAuthChanged = firebase.auth().onAuthStateChanged(user => {
       if (user) {
         localStorage.setItem("firebase-user", JSON.stringify(user));
       } else {
         localStorage.removeItem("firebase-user");
       }
     });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeAuthChanged();
+  }
+
+  constructor(props) {
+    super(props);
     this.state = { isLoggedIn: !!localStorage.getItem("firebase-user") };
     this.state.loginWithGoogle = this.loginWithGoogle;
     this.state.logout = this.logout;
