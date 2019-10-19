@@ -46,3 +46,27 @@ export class PublicRoute extends React.Component {
     );
   }
 }
+
+export class NonDirectAccessRoute extends React.Component {
+  render() {
+    const { component: Component, ...rest } = this.props;
+
+    const hasAccess =
+      this.props.location.state !== undefined &&
+      this.props.location.state.hasAccess;
+
+    if (hasAccess) {
+      return (
+        <Route
+          path={this.props.path}
+          render={props => {
+            return <Component {...props} />;
+          }}
+          {...rest}
+        />
+      );
+    } else {
+      return <Redirect to={AppRoutes.HOME} />;
+    }
+  }
+}

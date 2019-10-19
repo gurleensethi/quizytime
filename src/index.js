@@ -10,7 +10,11 @@ import SignIn from "./pages/SignIn";
 import firebase from "firebase";
 import firebaseConfig from "./config/firebase.config";
 import AuthProvider from "./context/AuthProvider";
-import { PrivateRoute, PublicRoute } from "./routes/CustomRoutes";
+import {
+  PrivateRoute,
+  PublicRoute,
+  NonDirectAccessRoute
+} from "./routes/CustomRoutes";
 import { AppRoutes } from "./routes/AppRoutes";
 import NotFound from "./pages/NotFound";
 
@@ -34,7 +38,7 @@ class App extends React.Component {
                 path={AppRoutes.EDITOR_QUESTION}
                 component={QuizQuestionsContainer}
               />
-              <Route
+              <NonDirectAccessRoute
                 exact
                 path={AppRoutes.EDITOR_QUIZ_COMPLETE}
                 component={QuizComplete}

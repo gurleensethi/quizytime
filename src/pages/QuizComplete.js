@@ -5,6 +5,10 @@ import TwitterIcon from "./../images/twitter.png";
 import LinkedInIcon from "./../images/linkedin.png";
 
 export default class QuizComplete extends React.Component {
+  componentWillUnmount() {
+    this.props.history.goForward();
+  }
+
   copyLinkToClipboard = async () => {
     const { state } = await navigator.permissions.query({
       name: "clipboard-write"

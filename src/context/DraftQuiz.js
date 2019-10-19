@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import firebase, { firestore } from "firebase";
+import firebase from "firebase";
 import FirebaseMetaData from "../constants/firebase-meta-data";
 
 export const DraftQuizContext = createContext({
@@ -143,34 +143,39 @@ export default class DraftQuiz extends React.Component {
   };
 
   createQuiz = async () => {
-    const userId = firebase.auth().currentUser.uid;
-    const quizCollection = await this.db.collection(
-      FirebaseMetaData.Collections.QUIZ.name
-    );
-    const userCollection = await this.db.collection(
-      FirebaseMetaData.Collections.USER.name
-    );
+    try {
+      const userId = firebase.auth().currentUser.uid;
+      const quizCollection = await this.db.collection(
+        FirebaseMetaData.Collections.QUIZ.name
+      );
+      const userCollection = await this.db.collection(
+        FirebaseMetaData.Collections.USER.name
+      );
 
-    const generatedDoc = await quizCollection.doc();
-    const userDocRef = userCollection.doc(userId);
+      const generatedDoc = await quizCollection.doc();
+      const userDocRef = userCollection.doc(userId);
 
-    this.db.runTransaction(async transaction => {
-      // Create user if doesn't exist
-      const userDoc = await transaction.get(userDocRef);
+      await this.db.runTransaction(async transaction => {
+        // Create user if doesn't exist
+        const userDoc = await transaction.get(userDocRef);
 
-      if (!userDoc.exists) {
-        await transaction.set(userDocRef, { quizIds: [] });
-      }
+        if (!userDoc.exists) {
+          await transaction.set(userDocRef, { quizIds: [] });
+        }
 
-      await transaction.set(generatedDoc, {
-        questions: this.state.questions,
-        time: firebase.firestore.Timestamp.now()
+        await transaction.set(generatedDoc, {
+          questions: this.state.questions,
+          time: firebase.firestore.Timestamp.now()
+        });
+
+        await transaction.update(userDocRef, {
+          quizIds: firebase.firestore.FieldValue.arrayUnion(generatedDoc.id)
+        });
       });
-
-      await transaction.update(userDocRef, {
-        quizIds: firebase.firestore.FieldValue.arrayUnion(generatedDoc.id)
-      });
-    });
+    } catch (error) {
+      return false;
+    }
+    return true;
   };
 
   render() {

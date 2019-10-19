@@ -3,13 +3,22 @@ import DraftQuiz from "../context/DraftQuiz";
 import PrimaryInput from "../components/primary_input/PrimaryInput";
 
 class QuizQuestions extends React.Component {
+  state = { isSubmittingQuestion: false };
+
   handleQuestionClick = id => {
     this.props.history.push(`/editor/question/${id}`);
   };
 
-  handleCreateQuizClick = () => {
-    this.props.history.push(`/editor/quiz-complete/`);
-    this.props.draftQuiz.createQuiz();
+  handleCreateQuizClick = async () => {
+    if (this.state.isSubmittingQuestion) {
+      return;
+    }
+    this.setState(() => ({ isSubmittingQuestion: true }));
+    const isQuestionSubmitted = await this.props.draftQuiz.createQuiz();
+    this.setState(() => ({ isSubmittingQuestion: false }));
+    if (isQuestionSubmitted) {
+      this.props.history.push(`/editor/quiz-complete/`, { hasAccess: true });
+    }
   };
 
   render() {
@@ -100,10 +109,14 @@ class QuizQuestions extends React.Component {
             }}
             onClick={this.handleCreateQuizClick}
           >
-            Complete Quiz
-            <i className="material-icons" style={{ marginLeft: "4px" }}>
-              done
-            </i>
+            {this.state.isSubmittingQuestion
+              ? "Submitting..."
+              : "Complete Quiz"}
+            {this.state.isSubmittingQuestion || (
+              <i className="material-icons" style={{ marginLeft: "4px" }}>
+                done
+              </i>
+            )}
           </button>
         </div>
       </div>
