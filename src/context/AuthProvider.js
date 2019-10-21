@@ -34,6 +34,9 @@ export default class AuthProvider extends React.Component {
   componentDidMount() {
     this.unsubscribeAuthChanged = firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        this.setState(prevState => {
+          return { userId: user.uid };
+        });
         localStorage.setItem("firebase-user", JSON.stringify(user));
       } else {
         localStorage.removeItem("firebase-user");
@@ -47,7 +50,14 @@ export default class AuthProvider extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { isLoggedIn: !!localStorage.getItem("firebase-user") };
+    let storedFirebaseUser = localStorage.getItem("firebase-user");
+    if (storedFirebaseUser) {
+      storedFirebaseUser = JSON.parse(storedFirebaseUser);
+    }
+    this.state = {
+      isLoggedIn: !!storedFirebaseUser,
+      userId: storedFirebaseUser ? storedFirebaseUser.uid : undefined
+    };
     this.state.loginWithGoogle = this.loginWithGoogle;
     this.state.logout = this.logout;
   }
