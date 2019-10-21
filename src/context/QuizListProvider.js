@@ -23,7 +23,22 @@ class QuizListProvider extends React.Component {
     const quizes = await firebase
       .firestore()
       .doc(docPath)
-      .get();
+      .get()
+      .then(snapshot => {
+        const quizIds = snapshot.data().quizIds || [];
+        console.log(quizIds);
+        return quizIds.map(id =>
+          firebase
+            .firestore()
+            .doc(`${FirebaseMetaData.Collections.QUIZ.name}/${id}`)
+            .get()
+        );
+      })
+      .then(promises => Promise.all(promises))
+      .then(quizes => quizes.map(quiz => quiz.data()));
+    this.setState(prevState => {
+      return { userQuizes: quizes };
+    });
   };
 
   render() {
