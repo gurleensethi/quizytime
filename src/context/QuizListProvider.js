@@ -26,7 +26,6 @@ class QuizListProvider extends React.Component {
       .get()
       .then(snapshot => {
         const quizIds = snapshot.data().quizIds || [];
-        console.log(quizIds);
         return quizIds.map(id =>
           firebase
             .firestore()
@@ -36,9 +35,8 @@ class QuizListProvider extends React.Component {
       })
       .then(promises => Promise.all(promises))
       .then(quizes => quizes.map(quiz => quiz.data()));
-    this.setState(prevState => {
-      return { userQuizes: quizes };
-    });
+
+    this.setState(prevState => ({ userQuizes: quizes }));
   };
 
   render() {
