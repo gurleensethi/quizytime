@@ -12,19 +12,19 @@ export default class Home extends React.Component {
             <div
               className="blue"
               style={{
-                backgroundColor: ""
+                height: "100%",
+                display: "flex",
+                flexDirection: "column"
               }}
             >
-              <div>
-                <QuizListProviderContainer.Consumer>
-                  {({ userQuizes }) => {
-                    return <QuizList quizes={userQuizes} />;
-                  }}
-                </QuizListProviderContainer.Consumer>
-                <button className="btn" onClick={logout}>
-                  Logout
-                </button>
-              </div>
+              <QuizListProviderContainer.Consumer>
+                {({ userQuizes }) => {
+                  return <QuizList quizes={userQuizes} />;
+                }}
+              </QuizListProviderContainer.Consumer>
+              <button className="btn" onClick={logout}>
+                Logout
+              </button>
             </div>
           );
         }}

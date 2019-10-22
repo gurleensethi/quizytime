@@ -5,15 +5,19 @@ export default class QuizListItem extends React.Component {
     const { quiz } = this.props;
     const questionsInQuiz = Object.keys(quiz.questions).length;
     const questionsInQuizSuffix =
-      questionsInQuiz > 1 ? "questions in quiz." : "question in quiz.";
+      questionsInQuiz > 1 ? "questions in quiz" : "question in quiz";
     return (
       <div
         style={{
-          padding: "20px"
+          padding: "20px",
+          margin: "20px",
+          display: "flex",
+          flexDirection: "column"
         }}
+        className="card orange white-text"
       >
-        {quiz.quizName}
-        <div>{`${questionsInQuiz} ${questionsInQuizSuffix}`}</div>
+        <span className="card-title">{quiz.quizName}</span>
+        <p>{`${questionsInQuiz} ${questionsInQuizSuffix}`}</p>
       </div>
     );
   }
