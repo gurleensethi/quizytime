@@ -6,8 +6,6 @@ import firebase from "firebase";
 const QuizListContext = createContext({});
 
 class QuizListProvider extends React.Component {
-  static Consumer = QuizListContext.Consumer;
-
   state = {
     userQuizes: []
   };
@@ -25,7 +23,8 @@ class QuizListProvider extends React.Component {
       .doc(docPath)
       .get()
       .then(snapshot => {
-        const quizIds = snapshot.data().quizIds || [];
+        const quizData = snapshot.data() || {};
+        const quizIds = quizData.quizIds || [];
         return quizIds.map(id =>
           firebase
             .firestore()
@@ -49,6 +48,7 @@ class QuizListProvider extends React.Component {
 }
 
 export default class QuizListProviderContainer extends React.Component {
+  static Consumer = QuizListContext.Consumer;
   render() {
     return (
       <AuthProvider.Consumer>

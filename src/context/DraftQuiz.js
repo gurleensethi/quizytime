@@ -12,7 +12,8 @@ export const DraftQuizContext = createContext({
         }
       }
     }
-  }
+  },
+  quizName: ""
 });
 
 export default class DraftQuiz extends React.Component {
@@ -28,7 +29,8 @@ export default class DraftQuiz extends React.Component {
           }
         }
       }
-    }
+    },
+    quizName: ""
   };
 
   db = firebase.firestore();
@@ -42,11 +44,13 @@ export default class DraftQuiz extends React.Component {
     this.state.addNewQuestion = this.addNewQuestion;
     this.state.removeQuestion = this.removeQuestion;
     this.state.createQuiz = this.createQuiz;
+    this.state.updateQuizName = this.updateQuizName;
   }
 
   updateQuestion = (id, text) => {
     this.setState(state => {
       return {
+        ...state,
         questions: {
           ...state.questions,
           [id]: { ...state.questions[id], text }
@@ -67,6 +71,7 @@ export default class DraftQuiz extends React.Component {
         }
       };
       return {
+        ...state,
         questions: {
           ...state.questions,
           [questionId]: updatedQuestion
@@ -89,6 +94,7 @@ export default class DraftQuiz extends React.Component {
         }
       };
       return {
+        ...state,
         questions: {
           ...state.questions,
           [questionId]: updatedQuestion
@@ -107,6 +113,7 @@ export default class DraftQuiz extends React.Component {
         options: { ...options }
       };
       return {
+        ...state,
         questions: {
           ...state.questions,
           [questionId]: updatedQuestion
@@ -119,6 +126,7 @@ export default class DraftQuiz extends React.Component {
     this.setState(state => {
       const questionId = `question-${new Date().getTime()}`;
       return {
+        ...state,
         questions: {
           ...state.questions,
           [questionId]: {
@@ -138,7 +146,19 @@ export default class DraftQuiz extends React.Component {
     this.setState(state => {
       const updatedQuestions = { ...state.questions };
       delete updatedQuestions[questionId];
-      return { questions: updatedQuestions };
+      return {
+        ...state,
+        questions: updatedQuestions
+      };
+    });
+  };
+
+  updateQuizName = quizName => {
+    this.setState(state => {
+      return {
+        ...state,
+        quizName: quizName
+      };
     });
   };
 
@@ -164,6 +184,7 @@ export default class DraftQuiz extends React.Component {
         }
 
         await transaction.set(generatedDoc, {
+          quizName: this.state.quizName,
           questions: this.state.questions,
           time: firebase.firestore.Timestamp.now()
         });

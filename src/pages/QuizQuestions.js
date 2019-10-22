@@ -76,7 +76,11 @@ class QuizQuestions extends React.Component {
           >
             <p>Questions</p>
             <br />
-            <PrimaryInput placeholder="Name of Quiz" />
+            <PrimaryInput
+              placeholder="Name of Quiz"
+              value={this.props.draftQuiz.quizName}
+              onChange={text => this.props.draftQuiz.updateQuizName(text)}
+            />
           </div>
           <div className="row" style={{ width: "100%" }}>
             {questionsJsx}

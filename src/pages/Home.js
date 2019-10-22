@@ -1,6 +1,7 @@
 import React from "react";
 import AuthProvider from "../context/AuthProvider";
 import QuizList from "../components/quiz_list/QuizList";
+import QuizListProviderContainer from "../context/QuizListProvider";
 
 export default class Home extends React.Component {
   render() {
@@ -15,7 +16,11 @@ export default class Home extends React.Component {
               }}
             >
               <div>
-                <QuizList />
+                <QuizListProviderContainer.Consumer>
+                  {({ userQuizes }) => {
+                    return <QuizList quizes={userQuizes} />;
+                  }}
+                </QuizListProviderContainer.Consumer>
                 <button className="btn" onClick={logout}>
                   Logout
                 </button>
