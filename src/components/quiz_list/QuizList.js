@@ -1,4 +1,5 @@
 import React from "react";
+import QuizListItem from "./QuizListItem";
 
 export default class QuizList extends React.Component {
   render() {
@@ -7,14 +8,7 @@ export default class QuizList extends React.Component {
 
     const hasQuizes = quizes !== undefined && quizes.length > 0;
     const quizesComponent = hasQuizes ? (
-      quizes.map((quiz, index) => {
-        return (
-          <div key={index}>
-            {quiz.quizName}
-            <div>{`${Object.keys(quiz.questions).length} questions`}</div>
-          </div>
-        );
-      })
+      quizes.map((quiz, index) => <QuizListItem key={index} quiz={quiz} />)
     ) : (
       <p>You have not created any quizes.</p>
     );
