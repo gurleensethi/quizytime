@@ -1,7 +1,9 @@
 import React, { createContext } from "react";
 import AuthProvider from "./AuthProvider";
 import FirebaseMetaData from "../constants/firebase-meta-data";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
 
 const QuizListContext = createContext({});
 

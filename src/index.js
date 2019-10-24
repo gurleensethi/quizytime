@@ -7,7 +7,7 @@ import DraftQuiz from "./context/DraftQuiz";
 import QuizComplete from "./pages/QuizComplete";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import firebaseConfig from "./config/firebase.config";
 import AuthProvider from "./context/AuthProvider";
 import {

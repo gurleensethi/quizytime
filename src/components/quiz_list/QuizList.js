@@ -4,7 +4,6 @@ import QuizListItem from "./QuizListItem";
 export default class QuizList extends React.Component {
   render() {
     const { quizes } = this.props;
-    console.log(quizes);
 
     const hasQuizes = quizes !== undefined && quizes.length > 0;
     const quizesComponent = hasQuizes ? (
